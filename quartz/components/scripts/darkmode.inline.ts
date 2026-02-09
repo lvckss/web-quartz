@@ -1,5 +1,8 @@
-const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
-const currentTheme = localStorage.getItem("theme") ?? userPref
+// darkmode.inline.ts
+
+// 1) Default siempre LIGHT si el usuario no ha elegido nada antes
+const storedTheme = localStorage.getItem("theme") as "light" | "dark" | null
+const currentTheme: "light" | "dark" = storedTheme ?? "light"
 document.documentElement.setAttribute("saved-theme", currentTheme)
 
 const emitThemeChangeEvent = (theme: "light" | "dark") => {
@@ -18,10 +21,11 @@ document.addEventListener("nav", () => {
     emitThemeChangeEvent(newTheme)
   }
 
+  // 2) Solo seguir al sistema SI el usuario NO ha elegido manualmente un tema
   const themeChange = (e: MediaQueryListEvent) => {
+    if (localStorage.getItem("theme")) return
     const newTheme = e.matches ? "dark" : "light"
     document.documentElement.setAttribute("saved-theme", newTheme)
-    localStorage.setItem("theme", newTheme)
     emitThemeChangeEvent(newTheme)
   }
 
@@ -30,7 +34,7 @@ document.addEventListener("nav", () => {
     window.addCleanup(() => darkmodeButton.removeEventListener("click", switchTheme))
   }
 
-  // Listen for changes in prefers-color-scheme
+  // 3) (opcional) Mantener escucha del sistema; si no quieres nunca seguir al sistema, borra estas 3 líneas
   const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
   colorSchemeMediaQuery.addEventListener("change", themeChange)
   window.addCleanup(() => colorSchemeMediaQuery.removeEventListener("change", themeChange))
