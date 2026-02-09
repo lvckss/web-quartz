@@ -1,10 +1,10 @@
 @use "./base.scss";
 
-/* Imágenes responsive sin deformar */
+/* Evitar que las imágenes se deformen en móvil */
 article img,
-article picture img,
-article video {
+article picture img {
+  width: 100%;
   max-width: 100%;
-  height: auto;
+  height: auto !important;   /* clave: anula cualquier height:100% */
   display: block;
 }
