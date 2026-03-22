@@ -70,3 +70,7 @@ La respuesta de la API debe ser algo en la siguiente línea:
 ```
 
 La mayoría de estos datos van a ser generados por un VLLM (Visual Large Language Model) que recibirá la clase predicha por el modelo de segmentación además de la imagen con el bounding box y área marcada.
+
+---
+
+Las métricas van a ser explicadas aquí [[Métricas estrella para evaluar pipelines de segmentación de daños]]
